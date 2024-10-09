@@ -1,14 +1,15 @@
 #ifndef BEEPMUSIC_H
 #define BEEPMUSIC_H
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#ifdef _WIN32
+    #define WIN32_LEAN_AND_MEAN
+    #include <windows.h>
+#endif
 #include <stdio.h>
+#include <stdint.h>
 #include <time.h>
 
-/*-----------------------
-  ----------KEYS---------
-  -----------------------*/
+// ---------- KEYS ----------
 
 #define C0          16.35
 #define CSHARP0     17.32
@@ -114,7 +115,7 @@
 #define ASHARP7     3729.31
 #define B7          3951.07
 
-const int allKeys[96] =
+const uint8_t ALL_KEYS[96] =
 {
     C0, CSHARP0, D0, DSHARP0, E0, F0, FSHARP0, G0, GSHARP0, A0, ASHARP0, B0,
     C1, CSHARP1, D1, DSHARP1, E1, F1, FSHARP1, G1, GSHARP1, A1, ASHARP1, B1,
@@ -126,45 +127,28 @@ const int allKeys[96] =
     C7, CSHARP7, D7, DSHARP7, E7, F7, FSHARP7, G7, GSHARP7, A7, ASHARP7, B7,
 };
 
-void PlayNote(float key, int length)
+void play_note(float key, uint32_t noteDurationMs)
 {
     printf("Hz - %f\n", key);
-    Beep(key, length);
+    Beep(key, noteDurationMs);
 }
 
-void PlayRandomSequence(int numberOfNotes)
+void play_random_sequence(uint32_t numberOfNotes, uint32_t minNoteDurationMs, uint32_t maxNoteDurationMs)
 {
-    printf("-- Random Sequence --\n");
-    printf("Rate: 200-500 Milliseconds\n\n");
+    printf("Rate: %d-%d Milliseconds\n\n", minNoteDurationMs, maxNoteDurationMs);
 
     srand(time(NULL));
 
-    for (int counter = 0; counter < numberOfNotes; counter++)
+    for (uint32_t counter = 0; counter < numberOfNotes; counter++)
     {
-        short randomKey = (rand() % (((sizeof(allKeys) / sizeof(allKeys[0])) - 1))) + 0;
-        short randomLength = (rand() % 500) + 200;
+        uint8_t randomKey     = (rand() % (((sizeof(ALL_KEYS) / sizeof(ALL_KEYS[0])) - 1))) + 0;
+        uint32_t randomLength = (rand() % maxNoteDurationMs) + minNoteDurationMs;
 
-        PlayNote(allKeys[randomKey], randomLength);
+        play_note(ALL_KEYS[randomKey], randomLength);
     }
 
     printf("\n");
 }
 
-void PlayRandomSequenceAtFixedRate(int numberOfNotes, int rateInMilliseconds)
-{
-    printf("-- Random Sequence --\n");
-    printf("Rate: %d Milliseconds\n\n", rateInMilliseconds);
-
-    srand(time(NULL));
-
-    for (int counter = 0; counter < numberOfNotes; counter++)
-    {
-        short randomKey = (rand() % (((sizeof(allKeys) / sizeof(allKeys[0])) - 1))) + 0;
-
-        PlayNote(allKeys[randomKey], rateInMilliseconds);
-    }
-
-    printf("\n");
-}
 
 #endif

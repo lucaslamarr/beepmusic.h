@@ -1,83 +1,92 @@
 #include "beepmusic.h"
 
-/*--------------------------
-  ------DEMO SEQUENCES------
-  --------------------------*/
+#include <stdbool.h>
 
-void Sequence1()
+static void run_demo_01()
 {
-    printf("-- Sequence 1--\n");
-    printf("Rate: Varied\n\n");
+    printf("-- Demo 1 (Manual Note Placement) --\n\n");
 
     for (int i = 0; i < 2; i++)
     {
-        for (int i = 0; i < 4; i++)
-        {
-            PlayNote(A3, 200);
-            PlayNote(B3, 200);
-            PlayNote(C4, 200);
-            PlayNote(E3, 200);
-        }
-
         for (int i = 0; i < 2; i++)
         {
-            PlayNote(A3, 200);
-            PlayNote(B3, 200);
-            PlayNote(C4, 200);
-            PlayNote(E4, 200);
+            play_note(A3, 200);
+            play_note(B3, 200);
+            play_note(C4, 200);
+            play_note(E3, 200);
+        }
+
+        for (int i = 0; i < 1; i++)
+        {
+            play_note(A3, 200);
+            play_note(B3, 200);
+            play_note(C4, 200);
+            play_note(E4, 200);
                          
-            PlayNote(A3, 200);
-            PlayNote(B3, 200);
-            PlayNote(C4, 200);
-            PlayNote(F4, 200);
+            play_note(A3, 200);
+            play_note(B3, 200);
+            play_note(C4, 200);
+            play_note(F4, 200);
         }
     }
 
     printf("\n");
 }
-void Sequence2()
-{
-    printf("-- Sequence 2--\n");
-    printf("Rate: Varied\n\n");
 
-    for (int i = 0; i < 2; i++)
-    {
-        PlayNote(G3, 200);
-        PlayNote(G3, 200);
-        PlayNote(G3, 200);
-        PlayNote(G3, 200);
-                     
-        PlayNote(D4, 200);
-        PlayNote(D4, 200);
-        PlayNote(D4, 200);
-        PlayNote(D4, 200);
-                     
-        PlayNote(E4, 200);
-        PlayNote(E4, 200);
-        PlayNote(E4, 200);
-                     
-        PlayNote(C4, 200);
-        PlayNote(C4, 200);
-        PlayNote(C4, 200);
-        PlayNote(C4, 200);
-        PlayNote(C4, 200); 
-    }
+static void run_demo_02()
+{
+    printf("-- Demo 2 (Random Sequence Fixed Rate) --\n\n");
+
+    play_random_sequence(24, 200, 200);
 
     printf("\n");
 }
 
-void RunDemo()
+static void run_demo_03()
 {
-    Sequence1();
-    Sequence2();
+    printf("-- Demo 3 (Random Sequence Varied Rate) --\n\n");
 
-    PlayRandomSequence(15);
-    PlayRandomSequenceAtFixedRate(50, 150);
+    play_random_sequence(24, 200, 800);
+
+    printf("\n");
 }
 
 int main() 
 { 
-    RunDemo();
+    bool show_menu = true;
+
+    while (show_menu)
+    {
+        printf("Select Demo\n\n");
+        printf("1: Manual Note Placement\n");
+        printf("2: Random Sequence Fixed Rate\n");
+        printf("3: Random Sequence Varied Rate\n\n");
+        printf("Choice: ");
+
+        char choice = _getch();
+
+        printf("\n\n");
+
+        switch (choice)
+        {
+            case '1':
+                run_demo_01();
+                break;
+            case '2':
+                run_demo_02();
+                break;
+            case '3':
+                run_demo_03();
+                break;
+            case 'q':
+            case 'Q':
+                show_menu = false;
+                break;
+            default:
+                break;
+        }
+    }
+
     return 0;
 }
 
