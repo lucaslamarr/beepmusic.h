@@ -13,11 +13,9 @@ BOOL Beep(
 
 By including ```beepmusic.h``` you can call these functions.
 
-```void PlayNote(float key, int length)```
+```void play_note(float key, uint32_t noteDurationMs)```
 
-```void PlayRandomSequence(int numberOfNotes)```
-
-```void PlayRandomSequenceAtFixedRate(int numberOfNotes, int rateInMilliseconds)```
+```void play_random_sequence(uint32_t numberOfNotes, uint32_t minNoteDurationMs, uint32_t maxNoteDurationMs)```
 
 Each of these functions will call ```Beep(DWORD dwFreq, DWORD dwDuration)``` under the hood and allow you to precisely set the desired key and length of every note that is played.
 By using one of the random sequences, you can specify the number of notes and a fixed length that will be used when playing random notes between A0-B7. It should be noted that the original Windows
@@ -25,7 +23,7 @@ function is synchronous when sending instructions to the computer speaker, which
 
 A demo program is also included that demonstrates two custom sequences, as well as two random sequences.
 
-# Future Plans
+# Future Ideas
 
 - Major and Minor scales for playing back random sequences.
 - Importing and Exporting MIDI.
